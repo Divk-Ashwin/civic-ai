@@ -264,7 +264,7 @@ export default function ReportForm() {
                 <button
                   type="button"
                   onClick={handleStopRecording}
-                  className="shrink-0 p-2 bg-critical text-white rounded-lg hover:bg-critical/90 transition-colors"
+                  className="shrink-0 p-2 bg-critical text-black rounded-lg hover:bg-critical/90 transition-colors"
                 >
                   <Square size={16} fill="currentColor" />
                 </button>
@@ -277,9 +277,9 @@ export default function ReportForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3.5 px-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-semibold shadow-md disabled:opacity-70 disabled:cursor-not-allowed text-lg"
+          className="w-full min-h-[56px] flex items-center justify-center py-3.5 px-4 bg-primary rounded-lg hover:bg-primary/90 transition-colors font-semibold shadow-md disabled:opacity-70 disabled:cursor-not-allowed text-lg"
         >
-          {isSubmitting ? "Submitting Report..." : "Submit Report to City"}
+          <span className="whitespace-nowrap text-white font-semibold">{isSubmitting ? "Submitting Report..." : "Submit Report to City"}</span>
         </button>
       </form>
     </div>

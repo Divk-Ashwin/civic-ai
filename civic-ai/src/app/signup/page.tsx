@@ -4,11 +4,13 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { User, Mail, Lock } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 import AuthLayout from "@/components/features/auth/AuthLayout";
 import RoleSelector, { Role } from "@/components/features/auth/RoleSelector";
 
 export default function SignUpPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [selectedRole, setSelectedRole] = useState<Role>("citizen");
   const [formData, setFormData] = useState({
     fullName: "",
@@ -30,6 +32,11 @@ export default function SignUpPage() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
+    // Map role for auth context (govt -> admin)
+    const authRole = selectedRole === "govt" ? "admin" : selectedRole;
+    
+    // Log in user after signup
+    login(formData.email, authRole);
     toast.success("Account created successfully!");
 
     // Route based on role
@@ -183,7 +190,7 @@ export default function SignUpPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 px-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 bg-primary text-black rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isLoading ? "Creating Account..." : "Create Account"}
           </button>

@@ -3,13 +3,14 @@
 import { FileText, TrendingUp, CheckCircle2, Users } from "lucide-react";
 
 export default function ImpactCard() {
+  // Generate random stats for demo
   const stats = {
-    reported: 12,
-    verified: 10,
-    peopleHelped: 500,
+    reported: Math.floor(Math.random() * 20) + 8,
+    verified: Math.floor(Math.random() * 15) + 5,
+    peopleHelped: Math.floor(Math.random() * 500) + 300,
   };
 
-  const progress = 80; // Progress to next badge
+  const progress = Math.floor(Math.random() * 40) + 60; // Progress to next badge
 
   const handleDownloadCertificate = () => {
     // Mock download functionality
@@ -17,16 +18,20 @@ export default function ImpactCard() {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-secondary-100 overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-lg border border-secondary-100">
       {/* Gradient Header */}
-      <div className="bg-linear-to-r from-primary to-primary/80 p-6 text-white">
-        <div className="flex flex-col items-center text-center">
+      <div className="bg-primary p-6 text-black relative">
+        <div className="flex flex-col items-center text-center relative z-10">
           {/* Badge Icon */}
           <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 border-2 border-white/30">
-            <span className="text-4xl">🛡️</span>
+            <span className="text-4xl leading-none">🛡️</span>
           </div>
-          <h3 className="text-2xl font-bold mb-1">Community Guardian</h3>
-          <p className="text-primary-100 text-sm">Level 2 Citizen</p>
+          <h3 className="text-2xl font-bold mb-1 text-black whitespace-nowrap">
+            <span className="inline-block">Community Guardian</span>
+          </h3>
+          <p className="text-black/90 text-sm font-medium whitespace-nowrap">
+            <span className="inline-block">Level 2 Citizen</span>
+          </p>
         </div>
       </div>
 
@@ -101,10 +106,10 @@ export default function ImpactCard() {
         {/* Download Certificate Button */}
         <button
           onClick={handleDownloadCertificate}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors font-medium"
+          className="w-full min-h-12 flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-black transition-colors font-medium"
         >
           <FileText size={18} />
-          Download Impact Certificate
+          <span className="whitespace-nowrap">Download Impact Certificate</span>
         </button>
       </div>
     </div>

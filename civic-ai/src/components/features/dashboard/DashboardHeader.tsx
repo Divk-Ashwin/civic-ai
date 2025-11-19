@@ -1,8 +1,20 @@
 "use client";
 
-import { Bell, Settings } from "lucide-react";
+import { Bell, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function DashboardHeader() {
+  const router = useRouter();
+
+  const handleNotifications = () => {
+    toast.info("You have 3 new notifications");
+  };
+
+  const handleProfile = () => {
+    router.push("/profile");
+  };
+
   return (
     <div className="bg-white border-b border-secondary-200 px-6 py-4">
       <div className="flex items-center justify-between">
@@ -17,14 +29,21 @@ export default function DashboardHeader() {
         {/* Right Side - User Info */}
         <div className="flex items-center gap-4">
           {/* Notifications */}
-          <button className="relative p-2 text-secondary-600 hover:bg-secondary-100 rounded-lg transition-colors">
+          <button 
+            onClick={handleNotifications}
+            className="relative p-2 text-secondary-600 hover:bg-secondary-100 rounded-lg transition-colors"
+          >
             <Bell size={20} />
             <span className="absolute top-1 right-1 w-2 h-2 bg-critical rounded-full" />
           </button>
 
-          {/* Settings */}
-          <button className="p-2 text-secondary-600 hover:bg-secondary-100 rounded-lg transition-colors">
-            <Settings size={20} />
+          {/* Profile */}
+          <button 
+            onClick={handleProfile}
+            className="p-2 text-secondary-600 hover:bg-secondary-100 rounded-lg transition-colors"
+            title="View Profile"
+          >
+            <User size={20} />
           </button>
 
           {/* User Avatar */}

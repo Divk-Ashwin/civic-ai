@@ -4,11 +4,26 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { isLoggedIn, user, logout } = useAuth();
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  // Determine dashboard route based on user role
+  const getDashboardRoute = () => {
+    if (!isLoggedIn) return "/login";
+    if (user?.role === "admin" || user?.role === "ngo") return "/admin";
+    return "/dashboard";
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+    window.location.href = "/login";
+  };
 
   return (
     <nav className="bg-white border-b border-secondary-200 sticky top-0 z-50 shadow-sm">
@@ -17,7 +32,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">C</span>
+              <span className="text-black font-bold text-xl">C</span>
             </div>
             <span className="text-2xl font-bold text-primary">CivicAI</span>
           </Link>
@@ -25,19 +40,19 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
-              href="/#how-it-works"
+              href="/about"
               className="text-secondary-700 hover:text-primary transition-colors font-medium"
             >
               How It Works
             </Link>
             <Link
-              href="/#impact"
+              href="/impact"
               className="text-secondary-700 hover:text-primary transition-colors font-medium"
             >
               Impact
             </Link>
             <Link
-              href="/dashboard"
+              href={getDashboardRoute()}
               className="text-secondary-700 hover:text-primary transition-colors font-medium"
             >
               Dashboard
@@ -46,18 +61,29 @@ export default function Navbar() {
 
           {/* Auth Buttons - Desktop */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              href="/login"
-              className="px-4 py-2 text-primary hover:text-primary/80 font-medium transition-colors"
-            >
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-sm"
-            >
-              Sign Up
-            </Link>
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className="px-6 py-2 bg-critical text-black rounded-lg hover:bg-critical/90 transition-colors font-medium shadow-sm"
+              >
+                <span className="whitespace-nowrap text-black font-medium">Log Out</span>
+              </button>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-primary hover:text-primary/80 font-medium transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="min-w-[100px] h-10 flex items-center justify-center px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-sm"
+                >
+                  <span className="whitespace-nowrap text-black font-medium">Sign Up</span>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -80,41 +106,52 @@ export default function Navbar() {
       >
         <div className="px-4 py-4 space-y-3">
           <Link
-            href="/#how-it-works"
+            href="/about"
             className="block px-4 py-2 text-secondary-700 hover:bg-secondary-50 hover:text-primary rounded-lg transition-colors font-medium"
             onClick={() => setIsOpen(false)}
           >
             How It Works
           </Link>
           <Link
-            href="/#impact"
+            href="/impact"
             className="block px-4 py-2 text-secondary-700 hover:bg-secondary-50 hover:text-primary rounded-lg transition-colors font-medium"
             onClick={() => setIsOpen(false)}
           >
             Impact
           </Link>
           <Link
-            href="/dashboard"
+            href={getDashboardRoute()}
             className="block px-4 py-2 text-secondary-700 hover:bg-secondary-50 hover:text-primary rounded-lg transition-colors font-medium"
             onClick={() => setIsOpen(false)}
           >
             Dashboard
           </Link>
           <div className="pt-3 border-t border-secondary-200 space-y-2">
-            <Link
-              href="/login"
-              className="block px-4 py-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-medium text-center"
-              onClick={() => setIsOpen(false)}
-            >
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="block px-4 py-2 bg-primary text-white hover:bg-primary/90 rounded-lg transition-colors font-medium text-center shadow-sm"
-              onClick={() => setIsOpen(false)}
-            >
-              Sign Up
-            </Link>
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center justify-center min-h-11 px-4 py-2 bg-critical text-black hover:bg-critical/90 rounded-lg transition-colors font-medium shadow-sm"
+              >
+                <span className="whitespace-nowrap text-black font-medium">Log Out</span>
+              </button>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="block px-4 py-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-medium text-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="flex items-center justify-center min-h-11 px-4 py-2 bg-primary text-black hover:bg-primary/90 rounded-lg transition-colors font-medium shadow-sm"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="whitespace-nowrap text-black font-medium">Sign Up</span>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

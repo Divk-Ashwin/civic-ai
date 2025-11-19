@@ -1,13 +1,15 @@
-"use client";
+    "use client";
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Lock } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 import AuthLayout from "@/components/features/auth/AuthLayout";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -27,10 +29,20 @@ export default function LoginPage() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
+    // Determine role based on email
+    let role: "citizen" | "admin" | "ngo" = "citizen";
+    if (formData.email.toLowerCase().includes("admin")) {
+      role = "admin";
+    } else if (formData.email.toLowerCase().includes("ngo")) {
+      role = "ngo";
+    }
+
+    // Log in user
+    login(formData.email, role);
     toast.success("Login successful!");
 
-    // Route based on email (mock logic)
-    if (formData.email.toLowerCase().includes("admin")) {
+    // Route based on role
+    if (role === "admin" || role === "ngo") {
       router.push("/admin");
     } else {
       router.push("/dashboard");
@@ -159,7 +171,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 px-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 bg-primary text-black rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isLoading ? "Signing In..." : "Sign In"}
           </button>

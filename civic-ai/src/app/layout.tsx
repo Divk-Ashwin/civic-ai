@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Navbar from "@/components/layout/Navbar";
 import "./globals.css";
 
@@ -22,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <Navbar />
-        {children}
-        <Toaster position="top-right" />
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Toaster position="top-right" />
+        </AuthProvider>
       </body>
     </html>
   );

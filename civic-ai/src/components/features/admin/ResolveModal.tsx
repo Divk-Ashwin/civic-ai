@@ -184,14 +184,14 @@ export default function ResolveModal({
           <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-secondary-200 bg-secondary-50">
             <button
               onClick={onClose}
-              className="px-6 py-2.5 border-2 border-secondary-300 text-secondary-700 rounded-lg hover:bg-secondary-100 transition-colors font-medium"
+              className="min-w-[100px] min-h-[44px] flex items-center justify-center px-6 py-2.5 border-2 border-secondary-300 text-secondary-700 rounded-lg hover:bg-secondary-100 transition-colors font-medium"
             >
-              Cancel
+              <span className="whitespace-nowrap">Cancel</span>
             </button>
             <button
               onClick={handleResolve}
               disabled={isSubmitting || !afterImage}
-              className="px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+              className="min-w-[200px] min-h-[44px] flex items-center justify-center px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting
                 ? "Resolving..."

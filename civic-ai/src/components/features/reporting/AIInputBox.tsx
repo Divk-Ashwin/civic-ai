@@ -69,7 +69,7 @@ export default function AIInputBox() {
               />
               <button
                 onClick={() => setUploadedImage(null)}
-                className="absolute -top-2 -right-2 bg-critical text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-critical/90"
+                className="absolute -top-2 -right-2 bg-critical text-black rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-critical/90"
               >
                 ×
               </button>
@@ -112,17 +112,17 @@ export default function AIInputBox() {
           <button
             onClick={handleAnalyze}
             disabled={isAnalyzing}
-            className="flex items-center space-x-2 px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+            className="min-w-[140px] min-h-11 flex items-center justify-center space-x-2 px-6 py-2.5 bg-primary text-black rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isAnalyzing ? (
               <>
-                <Loader2 size={18} className="animate-spin" />
-                <span>Analyzing...</span>
+                <Loader2 size={18} className="animate-spin text-black" />
+                <span className="whitespace-nowrap text-black font-medium">Analyzing...</span>
               </>
             ) : (
               <>
-                <span>Analyze</span>
-                <ArrowRight size={18} />
+                <span className="whitespace-nowrap text-black font-medium">Analyze</span>
+                <ArrowRight size={18} className="text-black" />
               </>
             )}
           </button>
